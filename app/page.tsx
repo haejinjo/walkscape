@@ -177,7 +177,7 @@ export default function HomePage() {
             <div className="mb-2 text-xs uppercase tracking-[0.28em] text-aqua/70">Compare</div>
             <h2 className="font-display text-2xl text-white md:text-3xl">Compare two neighborhood areas</h2>
             <p className="mt-2 max-w-2xl text-sm text-slate-300">
-              Select one area in Explore, click compare, then choose the second area. This view keeps the comparison separate from the main map.
+              Start in Explore, pick one area, click compare, then choose the second area. This screen keeps the side-by-side view separate from the main map.
             </p>
           </section>
 
@@ -207,7 +207,7 @@ export default function HomePage() {
               </div>
             ) : (
               <section className="glass rounded-[24px] p-5 text-sm text-slate-300">
-                No comparison is active yet. Go to `Explore`, pick an area, and use `Compare this area`.
+                No comparison is active yet. Go to Explore, pick an area, and use Compare this area.
               </section>
             )}
           </AnimatePresence>

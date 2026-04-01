@@ -4,17 +4,17 @@ import { Info } from "lucide-react";
 
 export function MethodologyPanel() {
   return (
-    <section className="glass rounded-[30px] p-5 shadow-glow">
+    <section className="glass rounded-[24px] p-5">
       <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
         <Info className="h-4 w-4 text-aqua" />
-        Methodology
+        How it works
       </div>
       <div className="space-y-4 text-sm leading-6 text-slate-300">
         <p>
           Walkscape is built around the <span className="font-semibold text-white">EPA National Walkability Index</span>,
           a relative walkability measure for <span className="font-semibold text-white">U.S. Census 2019 block groups</span>.
-          The EPA index draws on variables from the Smart Location Database, and this MVP translates that technical base into
-          four consumer-facing categories.
+          In the main product UI, we describe those as local neighborhood areas. The EPA index draws on variables from the Smart Location Database,
+          and Walkscape translates that technical base into four simpler categories.
         </p>
         <div className="grid gap-2 md:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
@@ -37,7 +37,7 @@ export function MethodologyPanel() {
         <p>
           This is a <span className="font-semibold text-white">relative comparison tool</span>, not a complete neighborhood
           score. It does not directly measure sidewalk quality, beauty, safety, affordability, school quality, noise, or personal fit.
-          Walkscape is an interpretation layer on top of EPA data, not a substitute for in-person judgment.
+          It is meant to help you compare places more quickly, not replace seeing a neighborhood for yourself.
         </p>
       </div>
     </section>

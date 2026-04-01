@@ -14,10 +14,10 @@ type HeaderProps = {
 };
 
 const tabs: Array<{ key: HeaderTab; label: string }> = [
-  { key: "overview", label: "Overview" },
+  { key: "overview", label: "Map" },
   { key: "explore", label: "Explore" },
   { key: "compare", label: "Compare" },
-  { key: "methodology", label: "Methodology" }
+  { key: "methodology", label: "How it works" }
 ];
 
 export function Header({ query, onQueryChange, onSubmit, activeTab, onTabChange }: HeaderProps) {
@@ -34,7 +34,7 @@ export function Header({ query, onQueryChange, onSubmit, activeTab, onTabChange 
               Find places where everyday life works better on foot.
             </h1>
             <p className="mt-3 max-w-xl text-sm text-slate-300 md:text-base">
-              Explore a simpler walkability read built on EPA-derived neighborhood data, with clear categories and map-first comparisons.
+              Use a simple map to see which places make daily life easier without relying on a car for everything.
             </p>
           </div>
 

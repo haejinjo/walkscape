@@ -81,13 +81,13 @@ export function EditorialOverview({
           <div className="max-w-2xl">
             <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-aqua/80">
               <Sparkles className="h-4 w-4" />
-              Editorial View
+              National View
             </div>
             <h2 className="font-display text-3xl leading-tight text-white md:text-5xl">
               Where does everyday life work best on foot?
             </h2>
             <p className="mt-3 text-sm leading-6 text-slate-300 md:text-base">
-              Start with one clear question, one active lens, and one national-style view. Then move into neighborhood detail only after something catches your eye.
+              Pick one lens, read the map, and click a place that stands out. The goal is to make the first read obvious in a few seconds.
             </p>
           </div>
 
@@ -120,7 +120,7 @@ export function EditorialOverview({
               </div>
             </div>
             <div className="rounded-full border border-black/10 bg-black/[0.04] px-3 py-1 text-xs text-black/70">
-              Relative EPA-based interpretation layer
+              Darker red means stronger support for walking
             </div>
           </div>
 
@@ -168,7 +168,7 @@ export function EditorialOverview({
           </div>
 
           <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
+            <div className="space-y-3">
               <div className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-black/60">Legend</div>
               <div className="flex flex-wrap items-center gap-2">
                 {legendStops.map((stop) => (
@@ -178,6 +178,9 @@ export function EditorialOverview({
                   </div>
                 ))}
               </div>
+              <p className="max-w-xl text-sm leading-6 text-black/65">
+                Each dot is one local area in the current sample. Click any dot to open that area in the detailed map view.
+              </p>
             </div>
 
             {featured ? (
@@ -188,7 +191,7 @@ export function EditorialOverview({
                 }}
                 className="rounded-full border border-black/10 bg-black/[0.04] px-4 py-2 text-sm text-black/70 transition hover:bg-black/[0.08]"
               >
-                Highlighted now: {featured.city} · {featured.label}
+                Top area right now: {featured.city} · {featured.label}
               </button>
             ) : null}
           </div>
