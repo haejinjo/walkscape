@@ -1,27 +1,18 @@
 "use client";
 
-import { Camera, Heart, Search, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Heart, Search, Sparkles } from "lucide-react";
 
 type HeaderProps = {
   query: string;
   onQueryChange: (value: string) => void;
   onSubmit: () => void;
-  recordMode: boolean;
-  onRecordModeToggle: () => void;
 };
 
-export function Header({
-  query,
-  onQueryChange,
-  onSubmit,
-  recordMode,
-  onRecordModeToggle
-}: HeaderProps) {
+export function Header({ query, onQueryChange, onSubmit }: HeaderProps) {
   const examples = [
-    { label: "Compare Santa Monica vs Pasadena", query: "Santa Monica" },
-    { label: "Find underrated walkable areas in Chicago", query: "Chicago" },
-    { label: "Search 11217", query: "11217" }
+    { label: "Chicago", query: "Chicago" },
+    { label: "Santa Monica", query: "Santa Monica" },
+    { label: "11217", query: "11217" }
   ];
 
   return (
@@ -37,8 +28,7 @@ export function Header({
               Find places where everyday life works better on foot.
             </h1>
             <p className="mt-3 max-w-xl text-sm text-slate-300 md:text-base">
-              Browse mock neighborhood profiles built in the shape of the EPA National Walkability
-              Index MVP: plain-English categories, side-by-side comparison, and a cinematic record mode.
+              Explore a simpler walkability read built on EPA-derived neighborhood data, with clear categories and map-first comparisons.
             </p>
           </div>
 
@@ -79,18 +69,9 @@ export function Header({
         </div>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
-          <button
-            onClick={onRecordModeToggle}
-            className={cn(
-              "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition",
-              recordMode
-                ? "bg-aqua text-slate-950"
-                : "border border-white/10 bg-white/5 text-slate-200 hover:border-aqua/50"
-            )}
-          >
-            <Camera className="h-4 w-4" />
-            {recordMode ? "Record Mode On" : "Record Mode"}
-          </button>
+          <div className="text-xs uppercase tracking-[0.24em] text-slate-500">
+            One question. One map. One active lens.
+          </div>
 
           <a
             href="https://www.buymeacoffee.com/"

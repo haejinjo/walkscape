@@ -10,7 +10,6 @@ type MapStageProps = {
   selected: Neighborhood;
   compareTarget: Neighborhood | null;
   onSelect: (neighborhood: Neighborhood) => void;
-  recordMode: boolean;
 };
 
 function overlayColor(score: number) {
@@ -24,8 +23,7 @@ export function MapStage({
   place,
   selected,
   compareTarget,
-  onSelect,
-  recordMode
+  onSelect
 }: MapStageProps) {
   return (
     <section className="glass relative min-h-[520px] overflow-hidden rounded-[32px] p-4 shadow-glow md:p-6">
@@ -43,12 +41,7 @@ export function MapStage({
         </div>
       </div>
 
-      <div
-        className={cn(
-          "relative mt-6 h-[420px] overflow-hidden rounded-[26px] border border-white/10 bg-[rgba(4,13,21,0.92)] transition-all duration-500",
-          recordMode && "h-[500px]"
-        )}
-      >
+      <div className="relative mt-6 h-[420px] overflow-hidden rounded-[26px] border border-white/10 bg-[rgba(4,13,21,0.92)] transition-all duration-500">
         <div className="absolute inset-0 bg-grid bg-[size:54px_54px] opacity-[0.09]" />
         <motion.div
           key={place.id}
@@ -97,7 +90,7 @@ export function MapStage({
                     className="cursor-pointer"
                     onClick={() => onSelect(item)}
                   />
-                  {(isSelected || isCompare || recordMode) && (
+                  {(isSelected || isCompare) && (
                     <>
                       <text
                         x={item.coordinates.x + 2.4}

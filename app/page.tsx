@@ -25,11 +25,8 @@ export default function HomePage() {
   const [activePlace, setActivePlace] = useState<Place>(defaultPlace);
   const [selected, setSelected] = useState<Neighborhood>(pickDefaultSelection(defaultPlace));
   const [compareTarget, setCompareTarget] = useState<Neighborhood | null>(defaultPlace.neighborhoods[1]);
-  const [recordMode, setRecordMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeLens, setActiveLens] = useState<"overall" | CategoryKey>("overall");
-  const [autoplay, setAutoplay] = useState(false);
-  const [storyIndex, setStoryIndex] = useState(0);
 
   useEffect(() => {
     void loadPlaces(query);
@@ -55,27 +52,8 @@ export default function HomePage() {
       return scoreB - scoreA;
     });
 
-    return sorted[storyIndex % sorted.length] ?? null;
-  }, [activeLens, flattenedNeighborhoods, storyIndex]);
-
-  useEffect(() => {
-    if (!autoplay || !flattenedNeighborhoods.length) return;
-
-    const lenses: Array<"overall" | CategoryKey> = [
-      "overall",
-      "dailyErrands",
-      "carLightLiving",
-      "connectedStreets",
-      "varietyNearby"
-    ];
-
-    const interval = window.setInterval(() => {
-      setStoryIndex((value) => value + 1);
-      setActiveLens((current) => lenses[(lenses.indexOf(current) + 1) % lenses.length]);
-    }, 2400);
-
-    return () => window.clearInterval(interval);
-  }, [autoplay, flattenedNeighborhoods.length]);
+    return sorted[0] ?? null;
+  }, [activeLens, flattenedNeighborhoods]);
 
   useEffect(() => {
     if (!featuredEntry) return;
@@ -102,7 +80,6 @@ export default function HomePage() {
         setActivePlace(nextActivePlace);
         setSelected(pickDefaultSelection(nextActivePlace));
         setCompareTarget(nextActivePlace.neighborhoods[1] ?? null);
-        setStoryIndex(0);
       });
     } catch {
       startTransition(() => {
@@ -112,7 +89,6 @@ export default function HomePage() {
         setActivePlace(defaultPlace);
         setSelected(pickDefaultSelection(defaultPlace));
         setCompareTarget(defaultPlace.neighborhoods[1] ?? null);
-        setStoryIndex(0);
       });
     } finally {
       setIsLoading(false);
@@ -149,24 +125,13 @@ export default function HomePage() {
 
   return (
     <main className="relative overflow-hidden">
-      <Header
-        query={query}
-        onQueryChange={setQuery}
-        onSubmit={runSearch}
-        recordMode={recordMode}
-        onRecordModeToggle={() => setRecordMode((value) => !value)}
-      />
+      <Header query={query} onQueryChange={setQuery} onSubmit={runSearch} />
 
       <div className="mx-auto w-full max-w-[1500px] px-4 py-4 md:px-6">
         <EditorialOverview
           places={places}
           activeLens={activeLens}
-          onLensChange={(lens) => {
-            setActiveLens(lens);
-            setAutoplay(false);
-          }}
-          autoplay={autoplay}
-          onToggleAutoplay={() => setAutoplay((value) => !value)}
+          onLensChange={setActiveLens}
           featured={featuredEntry?.neighborhood ?? null}
           onSelectNeighborhood={openNeighborhood}
         />
@@ -178,11 +143,10 @@ export default function HomePage() {
           selected={selected}
           compareTarget={compareTarget}
           onSelect={selectNeighborhood}
-          recordMode={recordMode}
         />
 
         <ProfileCard
-          title={recordMode ? "Record-ready profile" : "Neighborhood profile"}
+          title="Neighborhood profile"
           neighborhood={selected}
           onCompare={toggleCompareTarget}
           compareLabel={

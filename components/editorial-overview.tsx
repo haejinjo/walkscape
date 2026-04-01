@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Pause, Radio, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Place, Neighborhood, CategoryKey } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -11,8 +11,6 @@ type EditorialOverviewProps = {
   places: Place[];
   activeLens: LensKey;
   onLensChange: (lens: LensKey) => void;
-  autoplay: boolean;
-  onToggleAutoplay: () => void;
   featured: Neighborhood | null;
   onSelectNeighborhood: (place: Place, neighborhood: Neighborhood) => void;
 };
@@ -71,8 +69,6 @@ export function EditorialOverview({
   places,
   activeLens,
   onLensChange,
-  autoplay,
-  onToggleAutoplay,
   featured,
   onSelectNeighborhood
 }: EditorialOverviewProps) {
@@ -110,82 +106,69 @@ export function EditorialOverview({
                 {lens.label}
               </button>
             ))}
-
-            <button
-              onClick={onToggleAutoplay}
-              className={cn(
-                "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition",
-                autoplay
-                  ? "bg-white text-slate-950"
-                  : "border border-white/10 bg-white/5 text-slate-200"
-              )}
-            >
-              {autoplay ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              {autoplay ? "Pause Story" : "Play Story"}
-            </button>
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr]">
-          <div className="rounded-[28px] border border-white/10 bg-[#f3efe8] p-4 text-slate-900">
-            <div className="mb-3 flex items-start justify-between gap-3">
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-[0.28em] text-red-600">United States</div>
-                <div className="mt-1 text-2xl font-semibold">
-                  {activeLens === "overall"
-                    ? "Overall walkability"
-                    : lensOptions.find((item) => item.key === activeLens)?.label}
-                </div>
-              </div>
-              <div className="rounded-full border border-black/10 bg-black/[0.04] px-3 py-1 text-xs text-black/70">
-                Relative EPA-based interpretation layer
+        <div className="rounded-[28px] border border-white/10 bg-[#f3efe8] p-4 text-slate-900">
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.28em] text-red-600">United States</div>
+              <div className="mt-1 text-2xl font-semibold">
+                {activeLens === "overall"
+                  ? "Overall walkability"
+                  : lensOptions.find((item) => item.key === activeLens)?.label}
               </div>
             </div>
-
-            <div className="relative overflow-hidden rounded-[24px] border border-black/10 bg-[#f6f2eb] p-3">
-              <svg viewBox="0 0 100 62" className="h-[360px] w-full">
-                <path
-                  d="M9 21 L17 17 L24 18 L31 15 L37 17 L46 16 L55 18 L63 16 L71 19 L79 18 L86 22 L91 30 L88 36 L79 39 L72 45 L60 46 L49 44 L39 47 L28 45 L18 40 L11 34 L8 28 Z"
-                  fill="#d6d1c8"
-                  stroke="#5f5a53"
-                  strokeWidth="0.45"
-                />
-                <path d="M13 46 L19 49 L18 55 L12 54 Z" fill="#d6d1c8" stroke="#5f5a53" strokeWidth="0.45" />
-                <path d="M27 51 L30 55 L26 58 L23 53 Z" fill="#d6d1c8" stroke="#5f5a53" strokeWidth="0.45" />
-
-                {places.map((place, index) => {
-                  const topNeighborhood = [...place.neighborhoods].sort(
-                    (a, b) => lensScore(b, activeLens) - lensScore(a, activeLens)
-                  )[0];
-                  if (!topNeighborhood) return null;
-
-                  const point = placeCoordinate(index, places.length);
-                  const score = lensScore(topNeighborhood, activeLens);
-                  const isFeatured = featured?.id === topNeighborhood.id;
-
-                  return (
-                    <g key={place.id}>
-                      <motion.circle
-                        initial={false}
-                        animate={{
-                          r: isFeatured ? radiusForScore(score) + 1.8 : radiusForScore(score),
-                          opacity: isFeatured ? 1 : 0.9
-                        }}
-                        cx={point.x}
-                        cy={point.y}
-                        fill={colorForScore(score)}
-                        stroke={isFeatured ? "#111827" : "rgba(17,24,39,0.25)"}
-                        strokeWidth={isFeatured ? 0.8 : 0.35}
-                        className="cursor-pointer"
-                        onClick={() => onSelectNeighborhood(place, topNeighborhood)}
-                      />
-                    </g>
-                  );
-                })}
-              </svg>
+            <div className="rounded-full border border-black/10 bg-black/[0.04] px-3 py-1 text-xs text-black/70">
+              Relative EPA-based interpretation layer
             </div>
+          </div>
 
-            <div className="mt-4">
+          <div className="relative overflow-hidden rounded-[24px] border border-black/10 bg-[#f6f2eb] p-3">
+            <svg viewBox="0 0 100 62" className="h-[360px] w-full">
+              <path
+                d="M9 21 L17 17 L24 18 L31 15 L37 17 L46 16 L55 18 L63 16 L71 19 L79 18 L86 22 L91 30 L88 36 L79 39 L72 45 L60 46 L49 44 L39 47 L28 45 L18 40 L11 34 L8 28 Z"
+                fill="#d6d1c8"
+                stroke="#5f5a53"
+                strokeWidth="0.45"
+              />
+              <path d="M13 46 L19 49 L18 55 L12 54 Z" fill="#d6d1c8" stroke="#5f5a53" strokeWidth="0.45" />
+              <path d="M27 51 L30 55 L26 58 L23 53 Z" fill="#d6d1c8" stroke="#5f5a53" strokeWidth="0.45" />
+
+              {places.map((place, index) => {
+                const topNeighborhood = [...place.neighborhoods].sort(
+                  (a, b) => lensScore(b, activeLens) - lensScore(a, activeLens)
+                )[0];
+                if (!topNeighborhood) return null;
+
+                const point = placeCoordinate(index, places.length);
+                const score = lensScore(topNeighborhood, activeLens);
+                const isFeatured = featured?.id === topNeighborhood.id;
+
+                return (
+                  <g key={place.id}>
+                    <motion.circle
+                      initial={false}
+                      animate={{
+                        r: isFeatured ? radiusForScore(score) + 1.8 : radiusForScore(score),
+                        opacity: isFeatured ? 1 : 0.9
+                      }}
+                      cx={point.x}
+                      cy={point.y}
+                      fill={colorForScore(score)}
+                      stroke={isFeatured ? "#111827" : "rgba(17,24,39,0.25)"}
+                      strokeWidth={isFeatured ? 0.8 : 0.35}
+                      className="cursor-pointer"
+                      onClick={() => onSelectNeighborhood(place, topNeighborhood)}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
               <div className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-black/60">Legend</div>
               <div className="flex flex-wrap items-center gap-2">
                 {legendStops.map((stop) => (
@@ -196,46 +179,18 @@ export function EditorialOverview({
                 ))}
               </div>
             </div>
-          </div>
 
-          <div className="glass-strong rounded-[28px] p-5">
-            <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-aqua/80">
-              <Radio className="h-4 w-4" />
-              Story Frame
-            </div>
             {featured ? (
-              <>
-                <div className="font-display text-3xl text-white">{featured.city}</div>
-                <div className="mt-1 text-sm text-slate-400">{featured.label}</div>
-                <div className="mt-5 rounded-[22px] border border-white/10 bg-white/[0.04] p-4">
-                  <div className="text-sm font-medium text-white">
-                    {activeLens === "overall"
-                      ? featured.interpretation
-                      : `${lensOptions.find((item) => item.key === activeLens)?.label} spotlight`}
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{featured.summary}</p>
-                </div>
-                <div className="mt-4 space-y-2">
-                  {featured.categories.map((category) => (
-                    <div key={category.key} className="flex items-center justify-between gap-3 text-sm text-slate-300">
-                      <span>{category.label}</span>
-                      <span className="font-semibold text-white">{category.score}</span>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  onClick={() => {
-                    const place = places.find((item) => item.city === featured.city && item.state === featured.state);
-                    if (place) onSelectNeighborhood(place, featured);
-                  }}
-                  className="mt-5 w-full rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-red-100"
-                >
-                  Open full neighborhood view
-                </button>
-              </>
-            ) : (
-              <div className="text-sm text-slate-400">No featured neighborhood available.</div>
-            )}
+              <button
+                onClick={() => {
+                  const place = places.find((item) => item.city === featured.city && item.state === featured.state);
+                  if (place) onSelectNeighborhood(place, featured);
+                }}
+                className="rounded-full border border-black/10 bg-black/[0.04] px-4 py-2 text-sm text-black/70 transition hover:bg-black/[0.08]"
+              >
+                Highlighted now: {featured.city} · {featured.label}
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
