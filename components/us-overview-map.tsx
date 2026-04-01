@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import maplibregl, { GeoJSONSource, LngLatBoundsLike } from "maplibre-gl";
 import { CategoryKey, Neighborhood, Place } from "@/lib/types";
-import { estimatePlaceLngLat } from "@/lib/utils";
+import { estimatePlaceLngLat, scoreBinColor } from "@/lib/utils";
 
 type LensKey = "overall" | CategoryKey;
 
@@ -61,6 +61,7 @@ export function UsOverviewMap({
             neighborhoodId: topNeighborhood.id,
             neighborhoodLabel: topNeighborhood.label,
             score: getLensScore(topNeighborhood, activeLens),
+            color: scoreBinColor(getLensScore(topNeighborhood, activeLens)),
             isFeatured: featured?.id === topNeighborhood.id ? 1 : 0
           }
         };
@@ -132,33 +133,21 @@ export function UsOverviewMap({
         type: "circle",
         source: "overview-points",
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["get", "score"], 40, 4, 95, 9],
+          "circle-radius": ["interpolate", ["linear"], ["get", "score"], 40, 5, 95, 10],
           "circle-stroke-width": [
             "case",
             ["==", ["get", "isFeatured"], 1],
-            1.4,
-            0.6
+            2,
+            0.9
           ],
           "circle-stroke-color": [
             "case",
             ["==", ["get", "isFeatured"], 1],
             "#111827",
-            "rgba(17,24,39,0.25)"
+            "rgba(255,255,255,0.88)"
           ],
-          "circle-color": [
-            "step",
-            ["get", "score"],
-            "#737373",
-            56,
-            "#d4d4d8",
-            66,
-            "#fca5a5",
-            76,
-            "#ef4444",
-            86,
-            "#b91c1c"
-          ],
-          "circle-opacity": 0.92
+          "circle-color": ["get", "color"],
+          "circle-opacity": 0.98
         }
       });
 

@@ -91,6 +91,22 @@ export function compareSummary(primary: Neighborhood, secondary: Neighborhood) {
   return `${leader.label} leads overall, with the clearest edge in ${strongestGap.label.toLowerCase()}.`;
 }
 
+export const SCORE_BINS = [
+  { min: 0, label: "0-55", fill: "#6b7280", className: "bg-slate-500" },
+  { min: 56, label: "56-65", fill: "#d1d5db", className: "bg-slate-300" },
+  { min: 66, label: "66-75", fill: "#fca5a5", className: "bg-rose-300" },
+  { min: 76, label: "76-85", fill: "#ef4444", className: "bg-red-500" },
+  { min: 86, label: "86-100", fill: "#991b1b", className: "bg-red-800" }
+] as const;
+
+export function scoreBinColor(score: number) {
+  if (score >= 86) return "#991b1b";
+  if (score >= 76) return "#ef4444";
+  if (score >= 66) return "#fca5a5";
+  if (score >= 56) return "#d1d5db";
+  return "#6b7280";
+}
+
 export function pseudoToLngLat(coordinates: { x: number; y: number }) {
   const lng = (((coordinates.x - 10) / 80) * 360) - 180;
   const lat = (((90 - coordinates.y) / 80) * 180) - 90;

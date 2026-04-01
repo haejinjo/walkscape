@@ -2,7 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 import { Place, Neighborhood, CategoryKey } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, SCORE_BINS } from "@/lib/utils";
 import { UsOverviewMap } from "@/components/us-overview-map";
 
 type LensKey = "overall" | CategoryKey;
@@ -22,19 +22,6 @@ const lensOptions: Array<{ key: LensKey; label: string }> = [
   { key: "connectedStreets", label: "Connected Streets" },
   { key: "varietyNearby", label: "Variety Nearby" }
 ];
-
-const legendStops = [
-  { label: "Lower", color: "bg-slate-500" },
-  { label: "Moderate", color: "bg-slate-300" },
-  { label: "Strong", color: "bg-rose-200" },
-  { label: "Very strong", color: "bg-rose-500" },
-  { label: "Top tier", color: "bg-red-700" }
-];
-
-function lensScore(neighborhood: Neighborhood, lens: LensKey) {
-  if (lens === "overall") return neighborhood.overall;
-  return neighborhood.categories.find((item) => item.key === lens)?.score ?? neighborhood.overall;
-}
 
 export function EditorialOverview({
   places,
@@ -91,7 +78,7 @@ export function EditorialOverview({
               </div>
             </div>
             <div className="rounded-full border border-black/10 bg-black/[0.04] px-3 py-1 text-xs text-black/70">
-              Darker red means stronger support for walking
+              Colors match the score ranges in the key below
             </div>
           </div>
 
@@ -108,15 +95,15 @@ export function EditorialOverview({
             <div className="space-y-3">
               <div className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-black/60">Legend</div>
               <div className="flex flex-wrap items-center gap-2">
-                {legendStops.map((stop) => (
+                {SCORE_BINS.map((stop) => (
                   <div key={stop.label} className="flex items-center gap-2">
-                    <div className={cn("h-3 w-10 rounded-sm", stop.color)} />
+                    <div className={cn("h-3 w-10 rounded-sm", stop.className)} />
                     <span className="text-xs text-black/70">{stop.label}</span>
                   </div>
                 ))}
               </div>
               <p className="max-w-xl text-sm leading-6 text-black/65">
-                Each dot is one local area in the current sample. Click any dot to open that area in the detailed map view.
+                Each dot is one local area. Higher scores use darker red so the strongest places stand out immediately.
               </p>
             </div>
 

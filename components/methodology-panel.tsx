@@ -12,8 +12,8 @@ export function MethodologyPanel() {
       <div className="space-y-4 text-sm leading-6 text-slate-300">
         <p>
           Walkscape is built around the <span className="font-semibold text-white">EPA National Walkability Index</span>,
-          a relative walkability measure for <span className="font-semibold text-white">U.S. Census 2019 block groups</span>.
-          In the main product UI, we describe those as local neighborhood areas. The EPA index draws on variables from the Smart Location Database,
+          a relative walkability measure for small <span className="font-semibold text-white">census-defined local areas</span>.
+          The EPA index draws on variables from the Smart Location Database,
           and Walkscape translates that technical base into four simpler categories.
         </p>
         <div className="grid gap-2 md:grid-cols-2">

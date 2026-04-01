@@ -29,7 +29,7 @@ export async function getPlacesData(query?: string): Promise<PlacesApiResponse> 
   return {
     source,
     generatedAt,
-    places: filtered.length ? filtered : [defaultPlace]
+    places: sanitizePlaces(filtered.length ? filtered : [defaultPlace])
   };
 }
 
@@ -40,4 +40,25 @@ async function readProcessedPlaces(): Promise<ProcessedFile | null> {
   } catch {
     return null;
   }
+}
+
+function sanitizePlaces(places: Place[]) {
+  return places.map((place) => ({
+    ...place,
+    regionLabel: place.regionLabel.replace(/block groups?/gi, "local areas"),
+    neighborhoods: place.neighborhoods.map((neighborhood, index) => ({
+      ...neighborhood,
+      label: sanitizeNeighborhoodLabel(neighborhood.label, neighborhood.blockGroupId, index),
+      highlights: neighborhood.highlights.filter((item) => !/block group/i.test(item))
+    }))
+  }));
+}
+
+function sanitizeNeighborhoodLabel(label: string, blockGroupId: string, index: number) {
+  if (/block group/i.test(label)) {
+    const suffix = blockGroupId ? blockGroupId.slice(-4) : String(index + 1).padStart(2, "0");
+    return `Local area ${suffix}`;
+  }
+
+  return label;
 }

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import maplibregl, { GeoJSONSource } from "maplibre-gl";
 import { Neighborhood, Place } from "@/lib/types";
-import { estimateNeighborhoodLngLat } from "@/lib/utils";
+import { estimateNeighborhoodLngLat, scoreBinColor } from "@/lib/utils";
 
 type LocalAreaMapProps = {
   place: Place;
@@ -46,6 +46,7 @@ export function LocalAreaMap({
           neighborhoodId: neighborhood.id,
           label: neighborhood.label,
           score: neighborhood.overall,
+          color: scoreBinColor(neighborhood.overall),
           state
         }
       };
@@ -129,19 +130,7 @@ export function LocalAreaMap({
             "#ffffff",
             "#111827"
           ],
-          "circle-color": [
-            "step",
-            ["get", "score"],
-            "#737373",
-            56,
-            "#d4d4d8",
-            66,
-            "#fca5a5",
-            76,
-            "#ef4444",
-            86,
-            "#b91c1c"
-          ]
+          "circle-color": ["get", "color"]
         }
       });
 
