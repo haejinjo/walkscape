@@ -68,6 +68,10 @@ export function UsOverviewMap({
       .filter((feature): feature is NonNullable<typeof feature> => feature !== null);
   }, [activeLens, featured?.id, places]);
 
+  const featuresRef = useRef(features);
+
+  featuresRef.current = features;
+
   const featureLookup = useMemo(() => {
     const entries = new Map<string, { place: Place; neighborhood: Neighborhood }>();
 
@@ -91,7 +95,8 @@ export function UsOverviewMap({
       minZoom: 2.2,
       maxZoom: 6,
       maxBounds: USA_BOUNDS,
-      attributionControl: false
+      attributionControl: false,
+      renderWorldCopies: false
     });
 
     mapRef.current = map;
@@ -103,7 +108,7 @@ export function UsOverviewMap({
         type: "geojson",
         data: {
           type: "FeatureCollection",
-          features: []
+          features: featuresRef.current
         }
       });
 
@@ -175,6 +180,11 @@ export function UsOverviewMap({
           onSelectRef.current(match.place, match.neighborhood);
         }
       });
+
+      map.fitBounds(USA_BOUNDS, {
+        padding: 18,
+        duration: 0
+      });
     });
 
     return () => {
@@ -185,7 +195,7 @@ export function UsOverviewMap({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map?.isStyleLoaded()) return;
+    if (!map) return;
 
     const source = map.getSource("overview-points") as GeoJSONSource | undefined;
     if (!source) return;

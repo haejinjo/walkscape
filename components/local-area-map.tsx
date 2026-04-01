@@ -52,6 +52,10 @@ export function LocalAreaMap({
     });
   }, [compareTarget?.id, place.neighborhoods, selected.id]);
 
+  const featuresRef = useRef(features);
+
+  featuresRef.current = features;
+
   const neighborhoodLookup = useMemo(() => {
     return new Map(place.neighborhoods.map((neighborhood) => [neighborhood.id, neighborhood]));
   }, [place.neighborhoods]);
@@ -66,7 +70,8 @@ export function LocalAreaMap({
       zoom: 3.8,
       minZoom: 2.8,
       maxZoom: 12,
-      attributionControl: false
+      attributionControl: false,
+      renderWorldCopies: false
     });
 
     mapRef.current = map;
@@ -78,7 +83,7 @@ export function LocalAreaMap({
         type: "geojson",
         data: {
           type: "FeatureCollection",
-          features: []
+          features: featuresRef.current
         }
       });
 
@@ -168,7 +173,7 @@ export function LocalAreaMap({
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map?.isStyleLoaded()) return;
+    if (!map) return;
 
     const source = map.getSource("local-areas") as GeoJSONSource | undefined;
     if (!source) return;
@@ -184,6 +189,17 @@ export function LocalAreaMap({
     });
 
     if (!bounds.isEmpty()) {
+      const west = bounds.getWest();
+      const east = bounds.getEast();
+      const south = bounds.getSouth();
+      const north = bounds.getNorth();
+      const lngPad = Math.max((east - west) * 0.75, 2);
+      const latPad = Math.max((north - south) * 0.75, 2);
+
+      map.setMaxBounds([
+        [west - lngPad, south - latPad],
+        [east + lngPad, north + latPad]
+      ]);
       map.fitBounds(bounds, {
         padding: 72,
         duration: 700,
