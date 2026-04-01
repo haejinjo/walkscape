@@ -26,7 +26,7 @@ export function MapStage({
   onSelect
 }: MapStageProps) {
   return (
-    <section className="glass relative min-h-[520px] overflow-hidden rounded-[32px] p-4 shadow-glow md:p-6">
+    <section className="glass relative min-h-[520px] overflow-hidden rounded-[24px] p-4 md:p-6">
       <div className="map-noise absolute inset-0" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(115,240,210,0.18),transparent_25%),radial-gradient(circle_at_80%_24%,rgba(125,169,255,0.18),transparent_22%),radial-gradient(circle_at_50%_80%,rgba(245,122,135,0.14),transparent_28%)]" />
 
@@ -37,11 +37,11 @@ export function MapStage({
           <p className="max-w-lg text-sm text-slate-300">{place.spotlight}</p>
         </div>
         <div className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-300 md:block">
-          Mock block-group surface ready for EPA tile swap
+          Neighborhood area view
         </div>
       </div>
 
-      <div className="relative mt-6 h-[420px] overflow-hidden rounded-[26px] border border-white/10 bg-[rgba(4,13,21,0.92)] transition-all duration-500">
+      <div className="relative mt-6 h-[420px] overflow-hidden rounded-[20px] border border-white/10 bg-[rgba(4,13,21,0.92)] transition-all duration-500">
         <div className="absolute inset-0 bg-grid bg-[size:54px_54px] opacity-[0.09]" />
         <motion.div
           key={place.id}
@@ -123,10 +123,12 @@ export function MapStage({
           >
             <div className="mb-1 flex items-center gap-2 text-xs uppercase tracking-[0.28em] text-aqua/80">
               <MapPin className="h-3.5 w-3.5" />
-              Selected block group
+              Selected area
             </div>
             <div className="text-lg font-semibold text-white">{selected.label}</div>
-            <div className="text-sm text-slate-300">{selected.blockGroupId}</div>
+            <div className="text-sm text-slate-300">
+              {selected.city}, {selected.state}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>

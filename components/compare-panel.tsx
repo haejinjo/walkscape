@@ -17,7 +17,7 @@ export function ComparePanel({ primary, secondary, onSwap, onClear }: ComparePan
     <motion.section
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass rounded-[30px] p-5 shadow-glow"
+      className="glass rounded-[24px] p-5"
     >
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -48,7 +48,7 @@ export function ComparePanel({ primary, secondary, onSwap, onClear }: ComparePan
           const leader = category.score >= other.score ? primary.label : secondary.label;
 
           return (
-            <div key={category.key} className="rounded-[24px] border border-white/10 bg-white/[0.04] p-4">
+            <div key={category.key} className="rounded-[18px] border border-white/10 bg-white/[0.03] p-4">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <div className="text-sm font-medium text-white">{category.label}</div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">

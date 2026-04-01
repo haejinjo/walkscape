@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BarChart3, Plus, Share2 } from "lucide-react";
+import { BarChart3, Plus } from "lucide-react";
 import { Neighborhood } from "@/lib/types";
 import { cn, scoreColor } from "@/lib/utils";
 
@@ -24,8 +24,8 @@ export function ProfileCard({
     <motion.section
       layout
       className={cn(
-        "glass h-full rounded-[30px] p-5 shadow-glow",
-        compact ? "min-h-[420px]" : "min-h-[520px]"
+        "glass h-full rounded-[24px] p-5",
+        compact ? "min-h-[380px]" : "min-h-[460px]"
       )}
     >
       <div className="mb-4 flex items-start justify-between gap-3">
@@ -36,20 +36,20 @@ export function ProfileCard({
             {neighborhood.city}, {neighborhood.state} · ZIP {neighborhood.zip}
           </p>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-right">
+        <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-right">
           <div className="text-xs uppercase tracking-[0.24em] text-slate-400">Overall</div>
           <div className="text-3xl font-semibold text-white">{neighborhood.overall}</div>
         </div>
       </div>
 
-      <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-4">
+      <div className="rounded-[18px] border border-white/10 bg-white/[0.03] p-4">
         <div className="text-sm font-medium text-white">{neighborhood.interpretation}</div>
         <p className="mt-2 text-sm leading-6 text-slate-300">{neighborhood.summary}</p>
       </div>
 
       <div className="mt-5 grid gap-3">
         {neighborhood.categories.map((category) => (
-          <div key={category.key} className="rounded-[22px] border border-white/8 bg-slate-950/30 p-4">
+          <div key={category.key} className="rounded-[18px] border border-white/8 bg-white/[0.02] p-4">
             <div className="mb-2 flex items-center justify-between gap-4">
               <div>
                 <div className="text-sm font-medium text-white">{category.label}</div>
@@ -67,7 +67,7 @@ export function ProfileCard({
         ))}
       </div>
 
-      <div className="mt-5 rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
+      <div className="mt-5 rounded-[18px] border border-white/10 bg-white/[0.03] p-4">
         <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
           <BarChart3 className="h-4 w-4 text-aqua" />
           Quick reads
@@ -88,10 +88,6 @@ export function ProfileCard({
         >
           <Plus className="h-4 w-4" />
           {compareLabel}
-        </button>
-        <button className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200">
-          <Share2 className="h-4 w-4" />
-          Share / Record
         </button>
       </div>
     </motion.section>
