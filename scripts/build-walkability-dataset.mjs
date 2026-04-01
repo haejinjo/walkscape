@@ -127,7 +127,7 @@ function buildHeaderMap(headers) {
 }
 
 function readRow(values, headerMap) {
-  const overall = toScore(values[headerMap.overall]);
+  const overall = toNationalScore(values[headerMap.overall]);
   if (overall === null) return null;
 
   const geoid = normalizeGeoid(readValue(values, headerMap.geoid)) || `unknown-${Math.random().toString(36).slice(2, 10)}`;
@@ -137,10 +137,10 @@ function readRow(values, headerMap) {
   const city = normalizeCity(cityValue, state);
   const zip = readValue(values, headerMap.zip) || "";
 
-  const d2a = toScore(readValue(values, headerMap.d2a)) ?? overall;
-  const d2b = toScore(readValue(values, headerMap.d2b)) ?? overall;
-  const d3b = toScore(readValue(values, headerMap.d3b)) ?? overall;
-  const d4a = toScore(readValue(values, headerMap.d4a)) ?? overall;
+  const d2a = toNationalScore(readValue(values, headerMap.d2a)) ?? overall;
+  const d2b = toNationalScore(readValue(values, headerMap.d2b)) ?? overall;
+  const d3b = toNationalScore(readValue(values, headerMap.d3b)) ?? overall;
+  const d4a = toNationalScore(readValue(values, headerMap.d4a)) ?? overall;
   const x = toCoordinate(readValue(values, headerMap.x));
   const y = toCoordinate(readValue(values, headerMap.y));
 
@@ -281,6 +281,18 @@ function toScore(value) {
   if (!value) return null;
   const number = Number.parseFloat(String(value));
   if (!Number.isFinite(number)) return null;
+  return clamp(Math.round(number));
+}
+
+function toNationalScore(value) {
+  if (!value) return null;
+  const number = Number.parseFloat(String(value));
+  if (!Number.isFinite(number)) return null;
+
+  if (number <= 20) {
+    return clamp(Math.round(number * 5));
+  }
+
   return clamp(Math.round(number));
 }
 
