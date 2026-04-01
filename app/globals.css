@@ -6,18 +6,18 @@
 
 :root {
   color-scheme: dark;
-  --bg: #071018;
-  --bg-strong: #06111b;
-  --panel: rgba(10, 23, 34, 0.78);
-  --panel-strong: rgba(8, 19, 29, 0.92);
-  --border: rgba(255, 255, 255, 0.11);
-  --text: #f2f6f8;
-  --muted: #9bb4c4;
-  --soft: #6e8898;
-  --aqua: #73f0d2;
-  --sun: #f4b56a;
-  --rose: #f57a87;
-  --violet: #7da9ff;
+  --bg: #091017;
+  --bg-strong: #060c12;
+  --panel: rgba(13, 21, 30, 0.82);
+  --panel-strong: rgba(10, 17, 24, 0.94);
+  --border: rgba(148, 163, 184, 0.16);
+  --text: #f8fafc;
+  --muted: #9fb0c2;
+  --soft: #6b7d90;
+  --aqua: #66e0cf;
+  --sun: #f0b061;
+  --rose: #f16363;
+  --violet: #7f9cf5;
 }
 
 * {
@@ -32,11 +32,11 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(115, 240, 210, 0.11), transparent 28%),
-    radial-gradient(circle at 85% 15%, rgba(125, 169, 255, 0.14), transparent 22%),
-    radial-gradient(circle at 50% 100%, rgba(245, 122, 135, 0.08), transparent 35%),
-    linear-gradient(180deg, #071018 0%, #09151f 100%);
+    radial-gradient(circle at top left, rgba(102, 224, 207, 0.08), transparent 26%),
+    radial-gradient(circle at 86% 12%, rgba(127, 156, 245, 0.08), transparent 18%),
+    linear-gradient(180deg, #091017 0%, #0d1620 100%);
   color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 a {
@@ -57,13 +57,19 @@ input {
 .glass {
   background: var(--panel);
   border: 1px solid var(--border);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 24px 60px rgba(2, 8, 18, 0.28);
 }
 
 .glass-strong {
   background: var(--panel-strong);
   border: 1px solid var(--border);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.02),
+    0 24px 60px rgba(2, 8, 18, 0.32);
 }
 
 .map-noise::before {
@@ -83,6 +89,25 @@ input {
   text-wrap: balance;
 }
 
+.fine-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.surface-label {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(159, 176, 194, 0.72);
+}
+
+.metric-chip {
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .maplibregl-ctrl-bottom-right,
 .maplibregl-ctrl-bottom-left,
 .maplibregl-ctrl-logo {
@@ -99,4 +124,8 @@ input {
 
 .maplibregl-popup-tip {
   display: none;
+}
+
+.maplibregl-canvas {
+  filter: saturate(0.88) contrast(1.02);
 }

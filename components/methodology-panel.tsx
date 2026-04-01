@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 
 export function MethodologyPanel() {
   return (
-    <section className="glass rounded-[24px] p-5">
+    <section className="glass rounded-[20px] p-5">
       <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white">
         <Info className="h-4 w-4 text-aqua" />
         How it works
@@ -15,19 +15,19 @@ export function MethodologyPanel() {
           a relative walkability measure for small <span className="font-semibold text-white">census-defined local areas</span>.
         </p>
         <div className="grid gap-2 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.02] p-3">
             <div className="font-medium text-white">Daily Errands</div>
             <div>How realistic it is to handle routine needs nearby.</div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.02] p-3">
             <div className="font-medium text-white">Car-Light Living</div>
             <div>How possible it is to structure daily life without defaulting to driving.</div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.02] p-3">
             <div className="font-medium text-white">Connected Streets</div>
             <div>Whether the street layout supports direct walking routes.</div>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
+          <div className="rounded-[14px] border border-white/10 bg-white/[0.02] p-3">
             <div className="font-medium text-white">Variety Nearby</div>
             <div>Whether useful destinations and activity types are meaningfully mixed together.</div>
           </div>

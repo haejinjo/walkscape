@@ -152,7 +152,7 @@ export default function HomePage() {
       ) : null}
 
       {activeTab === "explore" ? (
-        <div className="mx-auto grid w-full max-w-[1500px] gap-4 px-4 py-4 md:px-6 lg:grid-cols-[1.35fr_0.9fr]">
+        <div className="mx-auto grid w-full max-w-[1500px] gap-4 px-4 py-4 md:px-6 lg:grid-cols-[1.4fr_0.85fr]">
           <MapStage
             place={activePlace}
             selected={selected}
@@ -173,8 +173,8 @@ export default function HomePage() {
 
       {activeTab === "compare" ? (
         <div className="mx-auto grid w-full max-w-[1500px] gap-4 px-4 py-4 md:px-6">
-          <section className="glass rounded-[24px] p-5">
-            <div className="mb-2 text-xs uppercase tracking-[0.28em] text-aqua/70">Compare</div>
+          <section className="glass rounded-[20px] p-5">
+            <div className="surface-label mb-2">Compare</div>
             <h2 className="font-display text-2xl text-white md:text-3xl">Compare two neighborhood areas</h2>
             <p className="mt-2 max-w-2xl text-sm text-slate-300">
               Start in Explore, pick one area, click compare, then choose the second area. This screen keeps the side-by-side view separate from the main map.
@@ -206,7 +206,7 @@ export default function HomePage() {
                 />
               </div>
             ) : (
-              <section className="glass rounded-[24px] p-5 text-sm text-slate-300">
+              <section className="glass rounded-[20px] p-5 text-sm text-slate-300">
                 No comparison is active yet. Go to Explore, pick an area, and use Compare this area.
               </section>
             )}
@@ -216,9 +216,9 @@ export default function HomePage() {
 
       {activeTab === "methodology" ? (
         <div className="mx-auto grid w-full max-w-[1500px] gap-4 px-4 py-4 md:px-6">
-          <section className="glass rounded-[24px] p-5">
+          <section className="glass rounded-[20px] p-5">
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300">
-              <span className="uppercase tracking-[0.28em] text-aqua/70">Data</span>
+              <span className="surface-label text-aqua/70">Data</span>
               <span>
                 {source === "processed" ? "Processed EPA file" : "Mock fallback"}
                 {generatedAt ? ` · ${new Date(generatedAt).toLocaleDateString()}` : ""}
