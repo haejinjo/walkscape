@@ -34,7 +34,7 @@ export function Header({ query, onQueryChange, onSubmit, activeTab, onTabChange 
               Find places where everyday life works better on foot.
             </h1>
             <p className="mt-3 max-w-xl text-sm text-slate-300 md:text-base">
-              Use a simple map to see which places make daily life easier without relying on a car for everything.
+              See where daily life is easier on foot.
             </p>
           </div>
 

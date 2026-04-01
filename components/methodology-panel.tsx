@@ -13,8 +13,6 @@ export function MethodologyPanel() {
         <p>
           Walkscape is built around the <span className="font-semibold text-white">EPA National Walkability Index</span>,
           a relative walkability measure for small <span className="font-semibold text-white">census-defined local areas</span>.
-          The EPA index draws on variables from the Smart Location Database,
-          and Walkscape translates that technical base into four simpler categories.
         </p>
         <div className="grid gap-2 md:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-3">
@@ -35,9 +33,7 @@ export function MethodologyPanel() {
           </div>
         </div>
         <p>
-          This is a <span className="font-semibold text-white">relative comparison tool</span>, not a complete neighborhood
-          score. It does not directly measure sidewalk quality, beauty, safety, affordability, school quality, noise, or personal fit.
-          It is meant to help you compare places more quickly, not replace seeing a neighborhood for yourself.
+          This is a <span className="font-semibold text-white">comparison tool</span>, not a full neighborhood score. It does not measure safety, affordability, school quality, noise, beauty, or personal fit.
         </p>
       </div>
     </section>

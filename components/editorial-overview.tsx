@@ -45,7 +45,7 @@ export function EditorialOverview({
               Where does everyday life work best on foot?
             </h2>
             <p className="mt-3 text-sm leading-6 text-slate-300 md:text-base">
-              Pick one lens, read the map, and click a place that stands out. The goal is to make the first read obvious in a few seconds.
+              Pick one lens and read the map.
             </p>
           </div>
 
@@ -103,7 +103,7 @@ export function EditorialOverview({
                 ))}
               </div>
               <p className="max-w-xl text-sm leading-6 text-black/65">
-                Each dot is one local area. Higher scores use darker red so the strongest places stand out immediately.
+                Each dot is one local area.
               </p>
             </div>
 
