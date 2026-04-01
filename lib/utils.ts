@@ -36,3 +36,13 @@ export function compareSummary(primary: Neighborhood, secondary: Neighborhood) {
 
   return `${leader.label} leads overall, with the clearest edge in ${strongestGap.label.toLowerCase()}.`;
 }
+
+export function pseudoToLngLat(coordinates: { x: number; y: number }) {
+  const lng = (((coordinates.x - 10) / 80) * 360) - 180;
+  const lat = (((90 - coordinates.y) / 80) * 180) - 90;
+
+  return {
+    lng,
+    lat
+  };
+}

@@ -1,3 +1,5 @@
+@import "maplibre-gl/dist/maplibre-gl.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,4 +81,22 @@ input {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.maplibregl-ctrl-bottom-right,
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-logo {
+  display: none !important;
+}
+
+.maplibregl-popup-content {
+  border-radius: 14px;
+  background: rgba(7, 16, 24, 0.92);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.maplibregl-popup-tip {
+  display: none;
 }

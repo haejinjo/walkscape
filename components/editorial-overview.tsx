@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Place, Neighborhood, CategoryKey } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { UsOverviewMap } from "@/components/us-overview-map";
 
 type LensKey = "overall" | CategoryKey;
 
@@ -34,35 +34,6 @@ const legendStops = [
 function lensScore(neighborhood: Neighborhood, lens: LensKey) {
   if (lens === "overall") return neighborhood.overall;
   return neighborhood.categories.find((item) => item.key === lens)?.score ?? neighborhood.overall;
-}
-
-function placeCoordinate(index: number, total: number) {
-  const columns = 8;
-  const row = Math.floor(index / columns);
-  const column = index % columns;
-  const x = 12 + column * 10.8 + (row % 2) * 2.4;
-  const y = 20 + row * 12.5;
-
-  return {
-    x: Math.min(x, 88),
-    y: Math.min(y, total > columns ? y : 50)
-  };
-}
-
-function colorForScore(score: number) {
-  if (score >= 86) return "#b91c1c";
-  if (score >= 76) return "#ef4444";
-  if (score >= 66) return "#fca5a5";
-  if (score >= 56) return "#d4d4d8";
-  return "#737373";
-}
-
-function radiusForScore(score: number) {
-  if (score >= 86) return 4.8;
-  if (score >= 76) return 4.2;
-  if (score >= 66) return 3.8;
-  if (score >= 56) return 3.4;
-  return 3;
 }
 
 export function EditorialOverview({
@@ -125,46 +96,12 @@ export function EditorialOverview({
           </div>
 
           <div className="relative overflow-hidden rounded-[24px] border border-black/10 bg-[#f6f2eb] p-3">
-            <svg viewBox="0 0 100 62" className="h-[360px] w-full">
-              <path
-                d="M9 21 L17 17 L24 18 L31 15 L37 17 L46 16 L55 18 L63 16 L71 19 L79 18 L86 22 L91 30 L88 36 L79 39 L72 45 L60 46 L49 44 L39 47 L28 45 L18 40 L11 34 L8 28 Z"
-                fill="#d6d1c8"
-                stroke="#5f5a53"
-                strokeWidth="0.45"
-              />
-              <path d="M13 46 L19 49 L18 55 L12 54 Z" fill="#d6d1c8" stroke="#5f5a53" strokeWidth="0.45" />
-              <path d="M27 51 L30 55 L26 58 L23 53 Z" fill="#d6d1c8" stroke="#5f5a53" strokeWidth="0.45" />
-
-              {places.map((place, index) => {
-                const topNeighborhood = [...place.neighborhoods].sort(
-                  (a, b) => lensScore(b, activeLens) - lensScore(a, activeLens)
-                )[0];
-                if (!topNeighborhood) return null;
-
-                const point = placeCoordinate(index, places.length);
-                const score = lensScore(topNeighborhood, activeLens);
-                const isFeatured = featured?.id === topNeighborhood.id;
-
-                return (
-                  <g key={place.id}>
-                    <motion.circle
-                      initial={false}
-                      animate={{
-                        r: isFeatured ? radiusForScore(score) + 1.8 : radiusForScore(score),
-                        opacity: isFeatured ? 1 : 0.9
-                      }}
-                      cx={point.x}
-                      cy={point.y}
-                      fill={colorForScore(score)}
-                      stroke={isFeatured ? "#111827" : "rgba(17,24,39,0.25)"}
-                      strokeWidth={isFeatured ? 0.8 : 0.35}
-                      className="cursor-pointer"
-                      onClick={() => onSelectNeighborhood(place, topNeighborhood)}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
+            <UsOverviewMap
+              places={places}
+              activeLens={activeLens}
+              featured={featured}
+              onSelectNeighborhood={onSelectNeighborhood}
+            />
           </div>
 
           <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
