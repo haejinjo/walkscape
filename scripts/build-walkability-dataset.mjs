@@ -9,7 +9,7 @@ const rowLimit = rowLimitArg ? Number(rowLimitArg.split("=")[1]) : Number.POSITI
 
 const FIELD_ALIASES = {
   geoid: ["GEOID20", "GEOID", "GEOID10", "BLKGRP", "BG_ID"],
-  state: ["STATE_NAME", "STATE", "STATE_ABBR", "STUSPS"],
+  state: ["STATE_NAME", "STATE", "STATE_ABBR", "STUSPS", "STATEFP"],
   city: ["CITY", "PLACE_NAME", "NAMELSAD", "CBSA_Name", "CBSA_NAME", "CBSA"],
   zip: ["ZIP", "ZIPCODE", "ZCTA5CE10"],
   overall: ["NatWalkInd"],
@@ -19,6 +19,16 @@ const FIELD_ALIASES = {
   d4a: ["D4A_Ranked", "D4a_Ranked", "D4A", "D4a"],
   x: ["POINT_X", "X", "INTPTLON", "LON", "LONGITUDE"],
   y: ["POINT_Y", "Y", "INTPTLAT", "LAT", "LATITUDE"]
+};
+
+const STATEFP_TO_ABBR = {
+  "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA", "08": "CO", "09": "CT", "10": "DE",
+  "11": "DC", "12": "FL", "13": "GA", "15": "HI", "16": "ID", "17": "IL", "18": "IN", "19": "IA",
+  "20": "KS", "21": "KY", "22": "LA", "23": "ME", "24": "MD", "25": "MA", "26": "MI", "27": "MN",
+  "28": "MS", "29": "MO", "30": "MT", "31": "NE", "32": "NV", "33": "NH", "34": "NJ", "35": "NM",
+  "36": "NY", "37": "NC", "38": "ND", "39": "OH", "40": "OK", "41": "OR", "42": "PA", "44": "RI",
+  "45": "SC", "46": "SD", "47": "TN", "48": "TX", "49": "UT", "50": "VT", "51": "VA", "53": "WA",
+  "54": "WV", "55": "WI", "56": "WY", "72": "PR"
 };
 
 main().catch((error) => {
@@ -34,6 +44,7 @@ async function main() {
   const input = fs.createReadStream(inputPath);
   const rl = readline.createInterface({ input, crlfDelay: Infinity });
   const grouped = new Map();
+  const seenNeighborhoods = new Set();
 
   let rowCount = 0;
   let headerMap = null;
@@ -49,6 +60,8 @@ async function main() {
     const values = parseCsvLine(line);
     const row = readRow(values, headerMap);
     if (!row) continue;
+    if (seenNeighborhoods.has(row.geoid)) continue;
+    seenNeighborhoods.add(row.geoid);
 
     const cityKey = `${row.city}|${row.state}`;
     if (!grouped.has(cityKey)) {
@@ -118,8 +131,10 @@ function readRow(values, headerMap) {
   if (overall === null) return null;
 
   const geoid = normalizeGeoid(readValue(values, headerMap.geoid)) || `unknown-${Math.random().toString(36).slice(2, 10)}`;
-  const city = readValue(values, headerMap.city) || "Imported Area";
-  const state = readValue(values, headerMap.state) || "US";
+  const cityValue = readValue(values, headerMap.city);
+  const stateValue = readValue(values, headerMap.state);
+  const state = normalizeState(stateValue, cityValue);
+  const city = normalizeCity(cityValue, state);
   const zip = readValue(values, headerMap.zip) || "";
 
   const d2a = toScore(readValue(values, headerMap.d2a)) ?? overall;
@@ -287,6 +302,25 @@ function normalizeGeoid(value) {
   }
 
   return cleaned;
+}
+
+function normalizeState(rawState, cityValue) {
+  const cleaned = String(rawState || "").trim();
+  if (STATEFP_TO_ABBR[cleaned]) return STATEFP_TO_ABBR[cleaned];
+  if (/^[A-Z]{2}$/.test(cleaned)) return cleaned;
+
+  const cityMatch = String(cityValue || "").match(/,\s*([A-Z]{2})(?:-[A-Z]{2})?$/);
+  if (cityMatch) return cityMatch[1];
+
+  return "US";
+}
+
+function normalizeCity(rawCity, state) {
+  const cleaned = String(rawCity || "").trim();
+  if (!cleaned) return `Local areas in ${state}`;
+
+  if (cleaned.includes(",")) return cleaned;
+  return `${cleaned}, ${state}`;
 }
 
 function clamp(value, min = 1, max = 100) {
