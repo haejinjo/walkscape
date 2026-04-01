@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import maplibregl, { GeoJSONSource } from "maplibre-gl";
 import { Neighborhood, Place } from "@/lib/types";
-import { pseudoToLngLat } from "@/lib/utils";
+import { estimateNeighborhoodLngLat } from "@/lib/utils";
 
 type LocalAreaMapProps = {
   place: Place;
@@ -27,8 +27,8 @@ export function LocalAreaMap({
   onSelectRef.current = onSelect;
 
   const features = useMemo(() => {
-    return place.neighborhoods.map((neighborhood) => {
-      const { lng, lat } = pseudoToLngLat(neighborhood.coordinates);
+    return place.neighborhoods.map((neighborhood, index) => {
+      const { lng, lat } = estimateNeighborhoodLngLat(place, neighborhood, index);
       const state =
         neighborhood.id === selected.id
           ? "selected"

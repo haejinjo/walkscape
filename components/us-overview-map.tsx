@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import maplibregl, { GeoJSONSource, LngLatBoundsLike } from "maplibre-gl";
 import { CategoryKey, Neighborhood, Place } from "@/lib/types";
-import { pseudoToLngLat } from "@/lib/utils";
+import { estimatePlaceLngLat } from "@/lib/utils";
 
 type LensKey = "overall" | CategoryKey;
 
@@ -46,7 +46,7 @@ export function UsOverviewMap({
 
         if (!topNeighborhood) return null;
 
-        const { lng, lat } = pseudoToLngLat(topNeighborhood.coordinates);
+        const { lng, lat } = estimatePlaceLngLat(place);
 
         return {
           type: "Feature" as const,
